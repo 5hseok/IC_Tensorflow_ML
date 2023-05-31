@@ -1,6 +1,6 @@
-import tensorflow.compat.v1 as tf
+import tensorflow.compat.v1 as tf           #버전 2에서 placeholder기능이 사라진 것을 사용하기 위한 선언
 import numpy as np
-tf.compat.v1.disable_eager_execution()
+tf.compat.v1.disable_eager_execution()      #버전 2에서 session을 사용하기 위한 코드
 xy=np.array([[1,2,1,0],[1,3,2,0],[1,3,5,0],[1,5,5,1],[1,7,5,1],[1,2,5,1]],dtype='float32')  #데이터들
 
 x_train = xy[0:4,0:3]           #0~3까지의 데이터로 훈련시키고

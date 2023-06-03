@@ -1,0 +1,18 @@
+[33mcommit dd7a3716fb16a8ad667b9e52fcce7676449f818d[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: ee7f4c6 722d01f
+Author: 5hseok <ohhs1010@gmail.com>
+Date:   Tue May 30 21:51:29 2023 +0900
+
+    Merge branch 'main' of https://github.com/5hseok/IC_Tensorflow_ML
+
+[33mcommit ee7f4c6871de967c0179cc1a4aa4588cba65700b[m
+Author: 5hseok <ohhs1010@gmail.com>
+Date:   Tue May 30 21:47:46 2023 +0900
+
+    h함수를 구하기 위해 w, b, x 설정 후 h 설정
+
+[33mcommit 722d01fbb50e0a887fbdacc806450077adb4c927[m
+Author: 5hseok <110245258+5hseok@users.noreply.github.com>
+Date:   Tue May 30 21:35:19 2023 +0900
+
+    Initial commit

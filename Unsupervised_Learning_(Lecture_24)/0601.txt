@@ -1,0 +1,30 @@
+Supervised Learning과 달리 Unsupervised Learning은 y값을 주지 않고 klustring으로 값을 구한다.
+Clustering은 Market segmentation, Social network analysis, organize computing clusters 등에서 적용할 수 있다.
+
+#Centroids = 평균
+
+K-Means = initial value로 아무 곳이나 잡아서 Section을 나누고
+나뉜 섹션들의 Centroids를 구해 그 점을 initial value로 잡아 다시 그룹핑 하고 이걸 반복
+x=sum(x1i)/m
+y=sum(x2i)/m
+
+input 
+    K (number of clusters)
+    Training Set (x1,x2,x3,,,,,,xm)
+    
+randomly initialize K cluster centroids 
+repeat{
+    for i in range(1,m+1): #cluster 할당
+        ci=index of cluster centroid clost to xi
+        #xi와 가장 가까운 클러스트를 찾아 그 클러스트의 인덱스를 ci에 대입 
+
+    for k in range(1,k+1): #centroids 구해서 이동
+        uk = average of points assigned to cluster k
+}
+
+k-mean value의 cost Function 만들기
+J(ci,ui) = 1/m * sum(np.pow(xi-ui,2))   #i=1,2,3,....
+이 J를 가장 minimize하게 만들게 한다.
+
+J가 convex function이 아니라면 Local minimize에는 도달 가능하지만 gloval minimize에는 도달할 수 없다.
+따라서 initial value를 잘 잡는 것이 중요하다.

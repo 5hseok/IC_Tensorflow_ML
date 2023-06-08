@@ -1,0 +1,14 @@
+Random initialization
+J function이 convex function이 아니기 때문에 local minimum 값을 찾기가 힘들다.
+때문에 Random initialization을 사용하는데 시작값을 임의로 잡고 cost를 구한 후
+다시 시작값을 다른 임의의 값으로 잡아 cost를 구하여 가장 작은 cost를 찾는다.
+for i in range(1,100):
+    randomly initialize K-means
+    get c
+    compute cost function = J
+pick the lowest cost J
+
+Choosing the value of K
+K는 집단의 개수를 의미하는데 이것은 클러스트링을 하는 목적에 따라 결정하거나
+elbow가 일어난 지점을 K로 잡는다.
+예를 들어 티셔츠의 사이즈를 m,L,XL 3그룹으로 나누고 싶다면 K를 3으로 잡는다.

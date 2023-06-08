@@ -1,0 +1,107 @@
+Markov Decision Process
+Markov Decision Process is a tuple (S,A,{Psa},r,R)
+S is a set of states
+A is a set of actions
+
+Psa are the state transition probabilities(s라는 statement에서 a라는 action을 취할 확률
+ex 1에서 2로 가는 확률 = P12)
+
+r(gamma) is subset of {0,1} is called the discount factor
+
+R : S X A is the reward function. R가 큰 값으로 움직이기 때문에 그걸 고려해서
+reward를 줘야한다.
+
+ex Lecture 25 slide 6
+
+s8과 s9에 가면 종료, s9가 목표, s8이 terminal
+
+{S,A}
+S={s0,s1,...s11}
+A={up,down,right,left}
+
+s'<-(s,a)   
+#s': next state
+#s : current state
+#a : action
+
+ex_ s5 <- (s4,down)     ##MDP
+    s0 <- (s5,s4,left)  ##Not MDP
+
+R(s) = -0.002 : immediate rewards (초기 보상값, 여기서는 -니까 감점값이다.
+이는 최대한 많은 reward값을 가지고 가야하므로 목표 지점까지 
+최소한의 감점으로 최단거리로 가라는 의미이다.)
+
+{S,A,Ps'~(s,a),r,R}
+Ps'~(s,a): Transition Probability from s to s'
+ex_ Ps4~(s5,up) = 1,Ps4~(s5,down) = 0;
+
+but, sometimes in real world
+Ps4~(s5,up) = 0.9, Ps0~(s5,up)=0.05, Ps8~(s5,up)=0.05
+(현실에서는 조이스틱을 위로 올렸을 때 10번중에 1번 정도는 위로 안 가고 오른쪽이나 
+왼쪽으로 빠진다.)
+
+Value function{
+목표로 하는 값 주변에는 value값이 비교적 높고, terminal값(감점을 받는 구간)
+주변에는 value값이 비교적 낮다.
+value를 계산하기 위해 시뮬레이션 해보자
+value값이 처음에는 0이지만 계속해서 시행착오를 거치며 
+그 지역의 value값을 업데이트 한다. 실패하면 그 경로의 value를 깎고, 성공하면
+그 경로의 value를 올리는 방식이다.
+Thus, value = sum(reward * gamma)
+
+policy of S->A : It is a series of actions that is made by a moving robot.
+ex_  ㅠ: (s0,right)->(s5,up)->(s4,up)->...->(s9,terminal)
+
+accumulates rewards
+ex_ Vㅠ(s0) = R(s0) + r * R(s5) + r^2 * R(s4) + ... + r^7 R(s9)
+    -0.002 + 0.9*(-0.002) + 
+여기서 r(gamma)는 이동 횟수에 비례하게 제곱되며, 최단 거리를 사용하여 도달하였는가
+에 대한 장치이다. 
+if Vㅠ' > Vㅠ:
+    the optimal path is Vㅠ' (더 높은 value값을 유지한 채 도달하였으므로)
+}
+Thus, max Vㅠ(s0) is the optimal path
+
+compute optimal path
+optimal path는 오직 하나만 존재한다.
+using Bellman's Principle 
+만약 optimal path가 0->1->5->9라면, 1에서부터 출발하는 optimal path도 
+이 길을 따라 1->5->9이다.
+
+Shortest Path Algorithm From destination node D to source node A By Recursion
+Let DT(N) is the shortest distance from source A to node N.
+DT(D) = argmin { DT(B) + 2, DT(E) -5, DT(C) + 4 } Why?
+DT(E) = argmin {DT(B) + 3, DT(C) + 5 }
+DT(B) = argmin { DT(A) + 4, DT(C) + 1 }
+DT(C) = argmin { DT(A) + 2 }
+DT(A) = 0
+DT(C) = 2
+DT(B) = 3 because of (4)
+DT(E) = 6 because of (3)
+DT(D) = 1 because of (2)
+
+Policy ㅠ with a Random Initial State S
+ㅠ: (s t=0,a t=0)->(s t=1,a t=1)->...
+Vㅠ(s): R(s0) + r*R(s1)+r^2*R(s2)+...
+
+Reinforcement Learning and Control Definition
+For example
+Assume that P{(s0,right)->s5}=0.9,{(s0,right)->s1} = 0.05,{P(s0,right)->s0} = 0.05, if the real world
+then Vㅠ(s t=0) = R(s0) + r(0.9*Vㅠ(s5),0.05*Vㅠ(s1)+0.05 * Vㅠ(s0))
+
+Bellman's Equation
+Vㅠ(s) = E(R(s0)+rR(s1))+... = E[R(s0)+r*(R(s1)+r*R(s2)+r^2 * R(s3))]
+Vㅠ(s) = R(s0)+rVㅠ(s')
+
+V'(s) = max ㅠ Vㅠ(s)
+V'(s) = max ㅠ (R(s0)+r * E( V'(s') ) ) 
+#가장 최대값을 구하기 위해 immediate value(시작값) + 그 뒤에 지나갈 값들 중 가장 큰 값.
+#ex_s0에서 s5까지 가는 값 + s5에서 s9(terminal)까지 가장 큰값으로 가는 값 -> 재귀느낌
+1. For each state s, initialize V(s):=0 except terminal
+2. Repeat until convergence{
+    For every state, update V(s) := R(s) + V'(s')
+}
+#when i=1, V(s5) = -0.002 + r * max(V(s4)=0*0.25,V(s0)=0*0.25,V(s8)=0*0.25) , 여기서 0.25는 그쪽으로 갈 확률
+#V(s6) = -0.002 * R(s6) + r * max(V(s9)*0.25,V(s3)*0.25,V(s7)*0.25) 
+그러면 s6이나 s10은 먼저 0.25라는 값을 가지게 되고 이곳을 제외한 곳들은 0이 된다.
+이것을 여러 번 반복하게 된다면 길이 생긴다.
